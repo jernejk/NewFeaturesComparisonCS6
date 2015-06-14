@@ -65,7 +65,6 @@ public string GetString()
 public string GetString() => { "Hello world" }
 ``` 
 
-
 ### Using static
 This allows you to use static methods of a class without writing their class.
 Useful for classes like System.Math and System.Console.
@@ -86,7 +85,7 @@ double value = Sqrt(Pow(a, 2) + Pow(b, 2)) * Sin(radius);
 In C# 5 we could not await results in catch and finally statements. A correct try/catch/finally can be a great pain to implement if all three statements requires await.
 This image shows how to handle such scenarios and simpler has become in C# 6.
 
-// TODO: Add image when on GitHub repository
+![](https://raw.githubusercontent.com/jernejk/NewFeaturesComparisonCS6/master/try_catch_finally_simplification.png)
 
 ### Null conditional operator - ?. (or sometimes called Elvis operator)
 Null-conditional operators ?. address many of the situations where code tends to drown in null-checking. They let you access members and elements only when the receiver is not-null, providing a null result otherwise
@@ -135,10 +134,11 @@ In C# 5 we had to rethrow exception but in C# 6 we can simply avoid handling cat
 Avoiding handling exception preserves the scope of the origin of the exception if exception is globally not handled.
 
 Losing scope in C# 5 due rethrow:
-// TODO: Add image a and b
+![](https://raw.githubusercontent.com/jernejk/NewFeaturesComparisonCS6/master/exception_filtering_old_a.png)
+![](https://raw.githubusercontent.com/jernejk/NewFeaturesComparisonCS6/master/exception_filtering_old_b.png)
 
 Preserving scope in C# 6:
-// TODO: Add image
+![](https://raw.githubusercontent.com/jernejk/NewFeaturesComparisonCS6/master/exception_filtering_new.png)
 
 Additional samples with WebException:
 ##### C# 5

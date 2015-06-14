@@ -2,26 +2,25 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using static System.Math;
 
 namespace NewFeaturesComparisonCS6
 {
     /// <summary>
-    /// C# 5 (.NET 4.5) features.
+    /// C# 6 (.NET 4.6) implementation.
     /// </summary>
-    public class OldFeatures : IFeatureComparison
+    public class NewFeatures : IFeatureComparison
     {
-        private bool isReadyOnly = true;
-
         /// <summary>
         /// Gets a read only property value.
         /// </summary>
-        public bool IsReadOnly { get { return isReadyOnly; } }
+        public bool IsReadOnly { get; } = true;
 
         /// <summary>
         /// Gets the name of a property (in this case IsReadOnly property)
-        /// NOTE: I could use LINQ, reflection and other things to make it refactor friendly.
+        /// NOTE: This is refactor friendly code.
         /// </summary>
-        public string IsReadOnlyPropertyName { get { return "IsReadOnly"; } }
+        public string IsReadOnlyPropertyName { get; } = nameof(IsReadOnly);
 
         /// <summary>
         /// Simple event handler.
@@ -31,14 +30,11 @@ namespace NewFeaturesComparisonCS6
         /// <summary>
         /// Simple Math.Pow calculation.
         /// </summary>
-        public double Compute(double a, double b)
-        {
-            return Math.Pow(a, b);
-        }
+        public double Compute(double a, double b) => Pow(a, b);
 
         /// <summary>
         /// A bit more complex async method when using C# 5 language.
-        /// Try, catch and finally contains async methods and awaits are required.
+        /// In C# 6 await is now supported in catch and finally statements!
         /// </summary>
         public async Task DoSomeWorkWithTryCatchFinallyAsync(bool throwExceptionInCatch)
         {
@@ -50,37 +46,14 @@ namespace NewFeaturesComparisonCS6
             }
             catch (Exception e)
             {
-                // This is used for async catch logic.
-                tryException = e;
+                // Do analytics, uploading bug infos, etc. This will throw exception if throwExceptionInCatch is true.
+                await ThrowExceptionIfTrueOtherwiseWaitAsync(throwExceptionInCatch);
             }
-
-            Exception catchException = null;
-
-            // Before C# 6 we could not use async in catch so we need to write this code to handle catch logic.
-            if (tryException != null)
+            finally
             {
-                // This must be in try catch and any exception are thrown after finally
-                try
-                {
-                    // Do analytics, uploading bug infos, etc. This will throw exception if throwExceptionInCatch is true.
-                    await ThrowExceptionIfTrueOtherwiseWaitAsync(throwExceptionInCatch);
-                }
-                catch (Exception e)
-                {
-                    // This is what we will rethrow after finally.
-                    catchException = e;
-                }
-            }
-
-
-            // Finally has to execute regardless what happened above.
-            // Perhaps log something or wait for resources to get free.
-            RaiseEvent();
-
-            // Throw exception if exception occurred while processing exception from the first try.
-            if (catchException != null)
-            {
-                throw catchException;
+                // Finally has to execute regardless what happened above.
+                // Perhaps log something or wait for resources to get free.
+                RaiseEvent();
             }
         }
 
@@ -105,12 +78,7 @@ namespace NewFeaturesComparisonCS6
         /// </summary>
         public void RaiseEvent()
         {
-            // Thread safe implementation for raising events.
-            var handle = OperationCompleted;
-            if (handle != null)
-            {
-                OperationCompleted(this, EventArgs.Empty);
-            }
+            OperationCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -137,20 +105,14 @@ namespace NewFeaturesComparisonCS6
 
                 if (rogueVariable)
                 {
-                    // Debugger will not stop here if exception is not handled.
-                    // Exception is handled and then rethrown.
+                    // If this exception is not handled anywhere, debugger will highlight line bellow.
+                    // Value of rogueVariable and everything else in this scope is available.
                     throw new Exception("Evil exception!!!");
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) when (Log(ex, letItThrow: true))
             {
-                // Log exception before rethrowing.
-                Log(ex);
-
-                // If this exception is not handled, debugger will highlight this line
-                // instead the line of the original exception, context (local variables) where exception occurred.
-                // Therefore culprit rogueVariable is not visible from here.
-                throw;
+                Debug.WriteLine("This will never execute due exception filtering!");
             }
         }
 
@@ -160,14 +122,14 @@ namespace NewFeaturesComparisonCS6
         /// <returns>Returns dictionary of settings.</returns>
         public Dictionary<string, string> GetSettings()
         {
-            // Old way of initializing dictionaries
-            Dictionary<string, string> settings = new Dictionary<string, string>();
-            settings.Add("EnableStuff", "True");
-            settings.Add("OffsetStuff", "1234");
-            settings.Add("WidthStuff", "12345");
-            settings.Add("HeightStuff", "1234");
-
-            return settings;
+            // More compact and "JSON like" syntax
+            return new Dictionary<string, string>
+            {
+                ["EnableStuff"] = "True",
+                ["OffsetStuff"] = "1234",
+                ["WidthStuff"] = "12345",
+                ["HeightStuff"] = "1234",
+            };
         }
 
         /// <summary>
@@ -180,18 +142,14 @@ namespace NewFeaturesComparisonCS6
         {
             var settings = GetSettings();
 
-            string value;
-            int valueLenght = -1;
-
-            if (settings.TryGetValue(key, out value))
+            string value = null;
+            if (!string.IsNullOrWhiteSpace(key))
             {
-                valueLenght = value.Length;
+                settings.TryGetValue(key, out value);
             }
 
-            return string.Format("{0} => `{1}` with length {2}",
-                key,
-                value ?? "key not found",
-                valueLenght);
+            // Using Elvis operator and $" for significantly shorter code.
+            return $"{key} => `{value ?? "key not found"}` with length {value?.Length ?? -1}";
         }
     }
 }

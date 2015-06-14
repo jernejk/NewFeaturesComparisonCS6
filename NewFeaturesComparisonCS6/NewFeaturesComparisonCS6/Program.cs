@@ -9,7 +9,11 @@ namespace NewFeaturesComparisonCS6
     {
         static void Main(string[] args)
         {
+            WriteLine("Old featured");
             ShowStuff(new OldFeatures()).Wait();
+
+            WriteLine("New featured");
+            ShowStuff(new NewFeatures()).Wait();
 
             WriteLine();
             WriteLine("Press enter key to exit...");

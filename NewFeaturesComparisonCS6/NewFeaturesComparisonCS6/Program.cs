@@ -1,4 +1,7 @@
-﻿using static System.Console;
+﻿using System;
+using System.Threading.Tasks;
+
+using static System.Console;
 
 namespace NewFeaturesComparisonCS6
 {
@@ -6,9 +9,14 @@ namespace NewFeaturesComparisonCS6
     {
         static void Main(string[] args)
         {
+            ShowStuff(new OldFeatures()).Wait();
+
+            WriteLine();
+            WriteLine("Press enter key to exit...");
+            ReadLine();
         }
 
-        private static async void ShowStuff(IFeatureComparison stuff)
+        private static async Task ShowStuff(IFeatureComparison stuff)
         {
             stuff.OperationCompleted += Stuff_OperationCompleted;
 
@@ -16,12 +24,23 @@ namespace NewFeaturesComparisonCS6
             WriteLine("Is readonly: " + stuff.IsReadOnly);
             WriteLine("Compute: " + stuff.Compute(2, 4));
 
+            await stuff.DoSomeWorkWithTryCatchFinallyAsync(false);
+
+            try
+            {
+                await stuff.DoSomeWorkWithTryCatchFinallyAsync(true);
+            }
+            catch (Exception exception)
+            {
+                WriteLine("Expected exception for DoSomeWorkWithTryCatchFinallyAsync.");
+            }
+
+            WriteLine();
+
             WriteLine("Setting value for EnableStuff: " + stuff.GetFormattedSettingValue("EnableStuff"));
             WriteLine("Setting value for NonExisting: " + stuff.GetFormattedSettingValue("NonExisting"));
-            WriteLine("Setting value for ExsitingWithNullValue: " + stuff.GetFormattedSettingValue("ExsitingWithNullValue"));
-
-            await stuff.DoSomeWorkWithTryCatchFinallyAsync();
-
+            WriteLine("Setting value for NullValue: " + stuff.GetFormattedSettingValue("NullValue"));
+            
             WriteLine("---------------------");
 
             stuff.OperationCompleted -= Stuff_OperationCompleted;

@@ -9,6 +9,10 @@ namespace NewFeaturesComparisonCS6
     {
         static void Main(string[] args)
         {
+            // Uncomment one of them to test exception filtering and see how scope is preserved in NewFeatures and not in OldFeatures.
+            //new OldFeatures().ThrowAndLogException();
+            //new NewFeatures().ThrowAndLogException();
+
             WriteLine("Old featured");
             ShowStuff(new OldFeatures()).Wait();
 

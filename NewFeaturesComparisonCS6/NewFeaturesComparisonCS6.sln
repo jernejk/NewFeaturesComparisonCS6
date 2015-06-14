@@ -9,7 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub files", "GitHub file
 	ProjectSection(SolutionItems) = preProject
 		..\.gitattributes = ..\.gitattributes
 		..\.gitignore = ..\.gitignore
+		..\exception_filtering_new.png = ..\exception_filtering_new.png
+		..\exception_filtering_old_a.png = ..\exception_filtering_old_a.png
+		..\exception_filtering_old_b.png = ..\exception_filtering_old_b.png
 		..\README.md = ..\README.md
+		..\try_catch_finally_simplification.png = ..\try_catch_finally_simplification.png
 	EndProjectSection
 EndProject
 Global

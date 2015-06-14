@@ -47,7 +47,7 @@ namespace NewFeaturesComparisonCS6
             catch (Exception e)
             {
                 // Do analytics, uploading bug infos, etc. This will throw exception if throwExceptionInCatch is true.
-                await ThrowExceptionIfTrueOtherwiseWaitAsync(throwExceptionInCatch);
+                await SharedUtils.ThrowExceptionIfTrueOtherwiseWaitAsync(throwExceptionInCatch);
             }
             finally
             {
@@ -58,39 +58,11 @@ namespace NewFeaturesComparisonCS6
         }
 
         /// <summary>
-        /// This method will throw a exception while also logging that exception before exception bubbles up
-        /// </summary>
-        public async Task ThrowExceptionIfTrueOtherwiseWaitAsync(bool throwException)
-        {
-            if (throwException)
-            {
-                throw new Exception();
-            }
-            else
-            {
-                // Simulate async work.
-                await Task.Delay(500);
-            }
-        }
-
-        /// <summary>
         /// Simple event invocation.
         /// </summary>
         public void RaiseEvent()
         {
             OperationCompleted?.Invoke(this, EventArgs.Empty);
-        }
-
-        /// <summary>
-        /// Simple log method. It returns reverse bool value of letItThrow which will be useful in C# 6.
-        /// </summary>
-        /// <param name="exception">Exception</param>
-        /// <param name="letItThrow">Should this exception be thrown or handled.</param>
-        /// <returns>Returns whether this exception should be handled or not.</returns>
-        public bool Log(Exception exception, bool letItThrow = false)
-        {
-            Debug.WriteLine(exception.ToString());
-            return !letItThrow;
         }
 
         /// <summary>
@@ -110,7 +82,7 @@ namespace NewFeaturesComparisonCS6
                     throw new Exception("Evil exception!!!");
                 }
             }
-            catch (Exception ex) when (Log(ex, letItThrow: true))
+            catch (Exception ex) when (SharedUtils.Log(ex, letItThrow: true))
             {
                 Debug.WriteLine("This will never execute due exception filtering!");
             }

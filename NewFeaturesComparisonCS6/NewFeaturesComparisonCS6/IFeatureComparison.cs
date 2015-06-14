@@ -26,16 +26,6 @@ namespace NewFeaturesComparisonCS6
         /// </summary>
         double Compute(double a, double b);
 
-        Task ThrowExceptionIfTrueOtherwiseWaitAsync(bool throwException);
-
-        /// <summary>
-        /// Simple log method. It returns reverse bool value of letItThrow which will be useful in C# 6.
-        /// </summary>
-        /// <param name="exception">Exception</param>
-        /// <param name="letItThrow">Should this exception be thrown or handled.</param>
-        /// <returns>Returns whether this exception should be handled or not.</returns>
-        bool Log(Exception exception, bool letItThrow = false);
-
         /// <summary>
         /// A bit more complex async method when using C# 5 language.
         /// Try, catch and finally contains async methods and awaits are required.

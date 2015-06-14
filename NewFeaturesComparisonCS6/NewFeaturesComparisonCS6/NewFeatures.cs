@@ -62,6 +62,7 @@ namespace NewFeaturesComparisonCS6
         /// </summary>
         public void RaiseEvent()
         {
+            // Null conditional operator is short, null safe and thread safe. (sometimes called Elvis operator - http://i.stack.imgur.com/hQlrp.png)
             OperationCompleted?.Invoke(this, EventArgs.Empty);
         }
 

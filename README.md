@@ -138,7 +138,7 @@ Losing scope in C# 5 due rethrow:
 // TODO: Add image a and b
 
 Preserving scope in C# 6:
-// TODO: Add image
+![text](https://5dpp8g.dm2301.livefilestore.com/y2pFFHc0eXnjWX1UWht4YV9R8qBcVTAytUVNZfjMXrfTkST45oO048X8MixH62jQCjbDVhQjMoa_1MkOLAsEC8s_GMRlFrqUdJ5R65j7ekkHsflHqeZSb4tVJLNT1QV8o9mwHczixEmR1FeEYF6fRACl7-cGYw167VfKZ_ZMn-pExg/exception_filtering_new.png?psid=1)
 
 Additional samples with WebException:
 ##### C# 5

@@ -1,6 +1,7 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/42viuuadm18nlfyn/branch/master?svg=true)](https://ci.appveyor.com/project/jernejk/newfeaturescomparisoncs6/branch/master)
 # NewFeaturesComparisonCS6
 Comparison between C# 5 and C# 6 features in a console app (applies to all platforms)
+
+[![Build status](https://ci.appveyor.com/api/projects/status/42viuuadm18nlfyn/branch/master?svg=true)](https://ci.appveyor.com/project/jernejk/newfeaturescomparisoncs6/branch/master)
 
 Presented features:
 - Auto-property initializes

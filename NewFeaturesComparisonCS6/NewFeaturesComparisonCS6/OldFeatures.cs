@@ -92,7 +92,7 @@ namespace NewFeaturesComparisonCS6
             var handle = OperationCompleted;
             if (handle != null)
             {
-                OperationCompleted(this, EventArgs.Empty);
+                handle(this, EventArgs.Empty);
             }
         }
 
@@ -119,8 +119,8 @@ namespace NewFeaturesComparisonCS6
                 SharedUtils.Log(ex);
 
                 // If this exception is not handled, debugger will highlight this line
-                // instead the line of the original exception, context (local variables) where exception occurred.
-                // Therefore culprit rogueVariable is not visible from here.
+                // instead the line of the original exception. Context of try statement (local variables like rogueVariable above) are lost.
+                // Therefore culprit rogueVariable has no value when debugger reaches this point.
                 throw;
             }
         }
